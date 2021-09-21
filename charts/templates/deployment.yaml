@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.application }}-{{ .Values.environment }}
+  labels:
+    app: {{ .Values.application }}-{{ .Values.environment }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.application }}-{{ .Values.environment }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.application }}-{{ .Values.environment }}
+    spec:
+      restartPolicy: {{ .Values.restartPolicy }}
+      containers:
+      - name: {{ .Values.application }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+        resources:
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: "{{ .Values.resources.requests.memory }}"
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: "{{ .Values.resources.limits.memory }}"
+        env:
+        - name: API
+          valueFrom:
+            configMapKeyRef:
+              name: cm-{{ .Values.application }}-{{ .Values.environment }}
+              key: API

@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for ratings-web
+name: ratings-web
+version: 1.0.1

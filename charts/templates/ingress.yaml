@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: {{ .Values.ingress.name }}-{{ .Values.environment }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  tls:
+    - hosts:
+      - {{ .Values.ingress.host }}
+      secretName: ratings-test-cert
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Values.service.name }}-{{ .Values.environment }}
+            port:
+              number: {{ .Values.service.port }}
+        path: /
+        pathType: ImplementationSpecific

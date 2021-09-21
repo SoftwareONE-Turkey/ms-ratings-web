@@ -1,0 +1,17 @@
+# Default values for ratings-web PROD.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+environment: prod
+
+# Ingress controls
+
+ingress:
+  host: ratings-web-prod.51.138.120.31.nip.io
+
+image:
+  repository: quay.io/swoturkey/ratings-web
+  tag: master
+
+###### SECRETS ######
+api: "http://ratings-api-svc-prod"
