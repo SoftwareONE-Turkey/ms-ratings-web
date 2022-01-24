@@ -4,6 +4,11 @@
 
 environment: test
 
+# Service controls
+service:
+  name: ratings-web-svc
+  type: LoadBalancer
+  
 # Ingress controls
 
 ingress:
